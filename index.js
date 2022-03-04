@@ -21,10 +21,10 @@ let projects = []
 let solanaLinks = []
 let solanaProjects = []
 
-async function puppeteerScrape(){
+const bot = async() => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'domcontentloaded'})
+    await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'networkidle2'})
     const scrape =  page.evaluate(() => {
         let searchedLinks = []
         let searchedItems = []
@@ -64,9 +64,9 @@ async function puppeteerScrape(){
     })
     await browser.close()
 
-    getSolanaNfts()
+    await getSolanaNfts()
 
-    res.json(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
+    return(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
 }
 function getSolanaNfts(){
     
@@ -262,6 +262,10 @@ app.get('/', async (req, res) => {
     res.json(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
 })
 
+app.get('/newtest', async (req, res) => {
+    const response = await bot()
+    res.json(response)
+})
 app.listen(PORT, console.log(`running on port ${PORT}`))
 
 
