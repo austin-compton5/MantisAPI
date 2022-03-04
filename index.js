@@ -213,7 +213,8 @@ app.get('/solana', (req, res) => {
 app.get('/', async (req, res) => {
     const browser = await puppeteer.launch({'args' : [
         '--no-sandbox',
-        '--disable-setuid-sandbox'
+        '--disable-setuid-sandbox',
+        "--disable-dev-shm-usage"
       ]
     })
     const page = await browser.newPage()
