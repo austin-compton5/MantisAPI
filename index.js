@@ -22,7 +22,10 @@ let solanaLinks = []
 let solanaProjects = []
 
 const bot = async() => {
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({
+        headless: 'true',
+        args: ['--no-sandbox']
+    })
     const page = await browser.newPage()
     await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'networkidle2'})
     const scrape =  page.evaluate(() => {
@@ -210,59 +213,59 @@ app.get('/solana', (req, res) => {
         res.json(solanaProjects)
 })
 
+// app.get('/', async (req, res) => {
+//     const browser = await puppeteer.launch({
+//         headless: 'true',
+//         args: ['--no-sandbox']
+//     })
+//     const page = await browser.newPage()
+//     await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'domcontentloaded'})
+//     await page.waitForSelector('.text-lg')
+//     const scrape =  page.evaluate(() => {
+//         let searchedLinks = []
+//         let searchedItems = []
+//         const results =  document.querySelectorAll('.text-lg')
+//         const anchorTags = document.querySelectorAll('td.block.float-left')
+//         console.log(results)
+//         results.forEach(function(result) {
+//             let row = {
+//                 'title':result.innerText,
+//                 'platform': 'Eth'
+//                 }
+//                 searchedItems.push(row);
+//             });
+
+//             anchorTags.forEach(function(tag){
+//                 let result = []
+//                 let children = tag.childNodes
+//                 children.forEach(child => {
+//                     if(child.href){
+//                         result.push(child.href)
+//                     }
+//                 })
+//                 searchedLinks.push(result)
+//             })
+
+//             for(i=0; i<searchedItems.length; i++){
+//                 searchedItems[i]["links"] = searchedLinks[i]
+//             }
+
+//             return searchedItems
+//     })
+//     .then(data => {
+//         projects = data 
+//         console.log(data)
+//     }).catch(function(e){
+//         console.log(e)
+//     })
+//     await browser.close()
+
+//     getSolanaNfts()
+
+//     res.json(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
+// })
+
 app.get('/', async (req, res) => {
-    const browser = await puppeteer.launch({
-        headless: 'true',
-        args: ['--no-sandbox']
-    })
-    const page = await browser.newPage()
-    await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'domcontentloaded'})
-    await page.waitForSelector('.text-lg')
-    const scrape =  page.evaluate(() => {
-        let searchedLinks = []
-        let searchedItems = []
-        const results =  document.querySelectorAll('.text-lg')
-        const anchorTags = document.querySelectorAll('td.block.float-left')
-        console.log(results)
-        results.forEach(function(result) {
-            let row = {
-                'title':result.innerText,
-                'platform': 'Eth'
-                }
-                searchedItems.push(row);
-            });
-
-            anchorTags.forEach(function(tag){
-                let result = []
-                let children = tag.childNodes
-                children.forEach(child => {
-                    if(child.href){
-                        result.push(child.href)
-                    }
-                })
-                searchedLinks.push(result)
-            })
-
-            for(i=0; i<searchedItems.length; i++){
-                searchedItems[i]["links"] = searchedLinks[i]
-            }
-
-            return searchedItems
-    })
-    .then(data => {
-        projects = data 
-        console.log(data)
-    }).catch(function(e){
-        console.log(e)
-    })
-    await browser.close()
-
-    getSolanaNfts()
-
-    res.json(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
-})
-
-app.get('/newtest', async (req, res) => {
     const response = await bot()
     res.json(response)
 })
