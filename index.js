@@ -211,7 +211,11 @@ app.get('/solana', (req, res) => {
 })
 
 app.get('/', async (req, res) => {
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({'args' : [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
+    })
     const page = await browser.newPage()
     await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'domcontentloaded'})
     await page.waitForSelector('.text-lg')
@@ -259,7 +263,7 @@ app.get('/', async (req, res) => {
     res.json(projects.slice(0, 25).concat(solanaProjects.slice(0, 25)))
 })
 
-app.listen(PORT, console.log('running on port 4000'))
+app.listen(PORT, console.log(`running on port ${PORT}`))
 
 
 
