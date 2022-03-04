@@ -213,8 +213,7 @@ app.get('/solana', (req, res) => {
 app.get('/', async (req, res) => {
     const browser = await puppeteer.launch({'args' : [
         '--no-sandbox',
-        '--disable-setuid-sandbox',
-      ]
+        ]
     })
     const page = await browser.newPage()
     await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'domcontentloaded'})
