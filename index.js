@@ -214,8 +214,6 @@ app.get('/', async (req, res) => {
     const browser = await puppeteer.launch({'args' : [
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        "--disable-dev-shm-usage",
-        "--shm-size=1gb"
       ]
     })
     const page = await browser.newPage()
