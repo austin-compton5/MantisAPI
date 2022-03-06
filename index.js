@@ -17,7 +17,6 @@ app.use(function(req, res, next){
 })
 
 let projects = []
-
 let solanaLinks = []
 let solanaProjects = []
 
