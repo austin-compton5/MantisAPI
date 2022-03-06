@@ -29,7 +29,7 @@ const bot = async() => {
     await page.goto("https://rarity.tools/upcoming/", {waitUntil: 'networkidle2'})
     await page.waitForSelector('.text-lg')
     await page.waitForSelector('td.block.float-left')
-    const scrape =  page.evaluate(() => {
+    const scrape = await page.evaluate(() => {
         let searchedLinks = []
         let searchedItems = []
         const results =  document.querySelectorAll('.text-lg')
