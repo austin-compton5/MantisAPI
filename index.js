@@ -6,6 +6,7 @@ const nightmare = Nightmare({show: true})
 const jquery = require('jquery');
 const { empty } = require('cheerio/lib/api/manipulation');
 const puppeteer = require('puppeteer')
+const cors = require('cors')
 
 const PORT = process.env.PORT || 4000 
 const app = express()
